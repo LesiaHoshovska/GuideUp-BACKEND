@@ -38,33 +38,59 @@ router.post(
     .escape(),
   body("totalDistance")
     .isInt({ min: 1 })
-    .withMessage("Must be specified")
+    .withMessage("Total distance must be specified")
     .toInt(),
   body("price")
     .isInt({ min: 1 })
-    .withMessage("Must be specified")
+    .withMessage("Price must be specified")
     .toInt()
     .escape(),
   body("daysAmount")
     .isInt({ min: 1 })
-    .withMessage("Must be specified")
+    .withMessage("Days amount must be specified")
     .toInt()
     .escape(),
   body("country")
     .isLength({ min: 3 })
     .trim()
-    .withMessage("Title must be specified")
+    .withMessage("Country must be specified")
     .escape(),
-  body("startDate").isDate().withMessage("Must be specified").toInt().escape(),
+  body("startDate")
+    .isDate(["/", "-"])
+    .withMessage("Date must be specified")
+    .escape(),
+  body("finishDate")
+    .isDate(["/", "-"])
+    .withMessage("Date must be specified")
+    .escape(),
   body("description")
     .isLength({ min: 50 })
     .trim()
-    .withMessage("Title must be specified")
+    .withMessage("Description must be specified")
     .escape(),
-  body("imgSrc")
-    .isLength({ min: 8 })
+  body("activity")
+    .isLength({ min: 3 })
     .trim()
-    .withMessage("Title must be specified")
+    .withMessage("Activity must be specified")
+    .escape(),
+  body("difficulties")
+    .isInt({ min: 1, max: 10 })
+    .withMessage("Difficulties must be specified")
+    .toInt(),
+  body("priceIncluded")
+    .isLength({ min: 10 })
+    .trim()
+    .withMessage("priceIncluded must be specified")
+    .escape(),
+  body("priceExcluded")
+    .isLength({ min: 10 })
+    .trim()
+    .withMessage("priceExcluded must be specified")
+    .escape(),
+  body("tourImgSrc")
+    .isLength({ min: 10 })
+    .trim()
+    .withMessage("tourImgSrc must be specified")
     .escape(),
 
   function (req, res, next) {
@@ -79,8 +105,13 @@ router.post(
       daysAmount: parseFloat(req.body.daysAmount),
       country: req.body.country,
       startDate: req.body.startDate,
+      finishDate: req.body.finishDate,
       description: req.body.description,
-      imgSrc: req.body.imgSrc,
+      activity: req.body.activity,
+      difficulties: parseInt(req.body.difficulties),
+      priceIncluded: req.body.priceIncluded,
+      priceExcluded: req.body.priceExcluded,
+      tourImgSrc: req.body.tourImgSrc,
     });
     tour.save(function (err) {
       if (err)
@@ -101,38 +132,61 @@ router.put(
     .escape(),
   body("totalDistance")
     .isInt({ min: 1 })
-    .withMessage("Must be specified")
+    .withMessage("Total distance must be specified")
     .toInt(),
   body("price")
     .isInt({ min: 1 })
-    .withMessage("Must be specified")
+    .withMessage("Price must be specified")
     .toInt()
     .escape(),
   body("daysAmount")
     .isInt({ min: 1 })
-    .withMessage("Must be specified")
+    .withMessage("Days amount must be specified")
     .toInt()
     .escape(),
   body("country")
     .isLength({ min: 3 })
     .trim()
-    .withMessage("Title must be specified")
+    .withMessage("Country must be specified")
     .escape(),
   body("startDate")
-    .isDate({ delimiters: ["/", "-", "."] })
-    .withMessage("Must be specified")
-    .toInt()
+    .isDate(["/", "-"])
+    .withMessage("Date must be specified")
+    .escape(),
+  body("finishDate")
+    .isDate(["/", "-"])
+    .withMessage("Date must be specified")
     .escape(),
   body("description")
     .isLength({ min: 50 })
     .trim()
-    .withMessage("Title must be specified")
+    .withMessage("Description must be specified")
     .escape(),
-  body("imgSrc")
-    .isLength({ min: 8 })
+  body("activity")
+    .isLength({ min: 3 })
     .trim()
-    .withMessage("Title must be specified")
+    .withMessage("Activity must be specified")
     .escape(),
+  body("difficulties")
+    .isInt({ min: 1, max: 10 })
+    .withMessage("Difficulties must be specified")
+    .toInt(),
+  body("priceIncluded")
+    .isLength({ min: 10 })
+    .trim()
+    .withMessage("priceIncluded must be specified")
+    .escape(),
+  body("priceExcluded")
+    .isLength({ min: 10 })
+    .trim()
+    .withMessage("priceExcluded must be specified")
+    .escape(),
+  body("tourImgSrc")
+    .isLength({ min: 10 })
+    .trim()
+    .withMessage("tourImgSrc must be specified")
+    .escape(),
+
   function (req, res, next) {
     Tour.findByIdAndUpdate(
       req.body.tourId,
@@ -143,8 +197,13 @@ router.put(
         daysAmount: parseFloat(req.body.daysAmount),
         country: req.body.country,
         startDate: req.body.startDate,
+        finishDate: req.body.finishDate,
         description: req.body.description,
-        imgSrc: req.body.imgSrc,
+        activity: req.body.activity,
+        difficulties: parseInt(req.body.difficulties),
+        priceIncluded: req.body.priceIncluded,
+        priceExcluded: req.body.priceExcluded,
+        tourImgSrc: req.body.tourImgSrc,
       },
       function (err) {
         if (err)
